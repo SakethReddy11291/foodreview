@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     database_url: str
     secret_key: str = "change-me"
     frontend_origin: str = "http://localhost:5173"
+    access_token_expire_minutes: int = 60
 
     model_config = SettingsConfigDict(env_file=".env")
 
