@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.db import get_db
-from app.routers import auth, restaurants, reviews
+from app.routers import auth, restaurants, reviews, uploads
 
 app = FastAPI(title="FoodReview API", version="0.1.0")
 
@@ -20,6 +20,7 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(restaurants.router)
 app.include_router(reviews.router)
+app.include_router(uploads.router)
 
 
 @app.get("/")

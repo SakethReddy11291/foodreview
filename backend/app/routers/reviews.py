@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.core.db import get_db
 from app.core.deps import get_current_user
 from app.models import Dish, HelpfulVote, Report, Restaurant, Review, ReviewPhoto, User
@@ -48,6 +49,15 @@ def create_review(
     restaurant = db.get(Restaurant, data.restaurant_id)
     if restaurant is None:
         raise HTTPException(status_code=404, detail="Restaurant not found")
+
+    if data.photo_urls:
+        prefix = f"https://res.cloudinary.com/{settings.cloudinary_cloud_name}/"
+        if not settings.cloudinary_cloud_name or any(
+            not url.startswith(prefix) for url in data.photo_urls
+        ):
+            raise HTTPException(
+                status_code=400, detail="Photos must be uploaded through /uploads/photo first"
+            )
 
     dish_name = " ".join(data.dish_name.split())
     dish = db.scalar(
