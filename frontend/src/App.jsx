@@ -1,6 +1,8 @@
 import { Link, Navigate, Route, Routes } from "react-router-dom";
 import { useAuth } from "./auth";
+import Explore from "./pages/Explore";
 import Home from "./pages/Home";
+import Restaurant from "./pages/Restaurant";
 import Login from "./pages/Login";
 
 function Shell({ children }) {
@@ -46,7 +48,8 @@ export default function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<Protected><Home /></Protected>} />
-      <Route path="/explore" element={<Protected><ComingSoon title="Explore Reviews" /></Protected>} />
+      <Route path="/explore" element={<Protected><Explore /></Protected>} />
+      <Route path="/restaurants/:id" element={<Protected><Restaurant /></Protected>} />
       <Route path="/post" element={<Protected><ComingSoon title="Post a Review" /></Protected>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
