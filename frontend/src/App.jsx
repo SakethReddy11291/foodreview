@@ -4,6 +4,7 @@ import Explore from "./pages/Explore";
 import Home from "./pages/Home";
 import Restaurant from "./pages/Restaurant";
 import Login from "./pages/Login";
+import Post from "./pages/Post";
 
 function Shell({ children }) {
   const { user, logout } = useAuth();
@@ -31,18 +32,6 @@ function Protected({ children }) {
   return user ? <Shell>{children}</Shell> : <Navigate to="/login" replace />;
 }
 
-function ComingSoon({ title }) {
-  return (
-    <div className="rounded-2xl bg-white p-8 text-center shadow-sm">
-      <h1 className="text-xl font-semibold">{title}</h1>
-      <p className="mt-2 text-gray-500">This screen is built in the next step.</p>
-      <Link to="/" className="mt-4 inline-block text-orange-600 underline">
-        ← Back to home
-      </Link>
-    </div>
-  );
-}
-
 export default function App() {
   return (
     <Routes>
@@ -50,7 +39,7 @@ export default function App() {
       <Route path="/" element={<Protected><Home /></Protected>} />
       <Route path="/explore" element={<Protected><Explore /></Protected>} />
       <Route path="/restaurants/:id" element={<Protected><Restaurant /></Protected>} />
-      <Route path="/post" element={<Protected><ComingSoon title="Post a Review" /></Protected>} />
+      <Route path="/post" element={<Protected><Post /></Protected>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

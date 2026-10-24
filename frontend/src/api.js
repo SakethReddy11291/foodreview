@@ -44,3 +44,24 @@ export async function api(path, { method = "GET", body, auth = true } = {}) {
   }
   return res.json();
 }
+
+export async function uploadPhoto(file) {
+  const form = new FormData();
+  form.append("file", file);
+  const res = await fetch(`${BASE}/uploads/photo`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${getToken()}` },
+    body: form,
+  });
+  if (!res.ok) {
+    let message = "Photo upload failed. Please try again.";
+    try {
+      const data = await res.json();
+      if (typeof data.detail === "string") message = data.detail;
+    } catch {
+      /* keep default message */
+    }
+    throw new Error(message);
+  }
+  return (await res.json()).url;
+}
